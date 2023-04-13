@@ -1,6 +1,7 @@
 package com.larramendiCrudProject.springboot.controller;
 
 import com.larramendiCrudProject.springboot.entity.User;
+import com.larramendiCrudProject.springboot.repository.UserRepository;
 import com.larramendiCrudProject.springboot.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,13 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
+                                           @RequestBody User user)    {
+        user.setId(userId);
+        User updatedUser = userService.updateUser(user);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 }
