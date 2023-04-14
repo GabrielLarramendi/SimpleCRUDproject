@@ -1,5 +1,6 @@
 package com.larramendiCrudProject.springboot.service.impl;
 
+import com.larramendiCrudProject.springboot.dto.UserDto;
 import com.larramendiCrudProject.springboot.entity.User;
 import com.larramendiCrudProject.springboot.repository.UserRepository;
 import com.larramendiCrudProject.springboot.service.UserService;
@@ -16,8 +17,19 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDto createUser(UserDto userDto) {
+
+        //Converter userDto em User para salvar no banco de dados;
+        User user = new User(userDto.getId(), userDto.getFirstName(), userDto.getLastName(), userDto.getEmail());
+
+        User savedUser = userRepository.save(user);
+
+        //Converter User JPA entity para UserDTO
+        UserDto savedUserDto = new UserDto(
+                savedUser.getId(), savedUser.getFirstName(), savedUser.getLastName(), savedUser.getEmail()
+        );
+
+        return savedUserDto;
     }
 
     @Override

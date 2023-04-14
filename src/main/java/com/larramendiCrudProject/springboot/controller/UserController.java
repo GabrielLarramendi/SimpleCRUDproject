@@ -1,7 +1,7 @@
 package com.larramendiCrudProject.springboot.controller;
 
+import com.larramendiCrudProject.springboot.dto.UserDto;
 import com.larramendiCrudProject.springboot.entity.User;
-import com.larramendiCrudProject.springboot.repository.UserRepository;
 import com.larramendiCrudProject.springboot.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/users")
@@ -17,11 +18,9 @@ public class UserController {
 
     private UserService userService;
 
-    //Build create User REST API
-
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.createUser(user);
+    public ResponseEntity<UserDto> createUserDto(@RequestBody UserDto userDto) {
+        UserDto savedUser = userService.createUser(userDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
