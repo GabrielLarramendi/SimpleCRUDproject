@@ -8,6 +8,7 @@ import com.larramendiCrudProject.springboot.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +34,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> list = userRepository.findAll();
+        List<UserDto> listDto = new ArrayList<>();
+        for(User x : list) {
+            listDto.add(UserMapper.mapToUserDto(x));
+        }
+        return listDto;
     }
 
     @Override
