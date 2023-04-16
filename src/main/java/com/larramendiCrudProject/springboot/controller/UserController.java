@@ -23,7 +23,7 @@ public class UserController {
         UserDto savedUser = userService.createUser(userDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
-
+ 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long userId) {
         UserDto user = userService.getUserById(userId);
@@ -37,11 +37,10 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
-                                           @RequestBody User user)    {
-        user.setId(userId);
-        User updatedUser = userService.updateUser(user);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long userId, @RequestBody UserDto userDto)    {
+        userDto.setId(userId);
+        UserDto updatedUserDto = userService.updateUser(userDto);
+        return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
