@@ -2,6 +2,7 @@ package com.larramendiCrudProject.springboot.service.impl;
 
 import com.larramendiCrudProject.springboot.dto.UserDto;
 import com.larramendiCrudProject.springboot.entity.User;
+import com.larramendiCrudProject.springboot.exception.ResourceNotFoundException;
 import com.larramendiCrudProject.springboot.mapper.AutoUserMapper;
 import com.larramendiCrudProject.springboot.mapper.UserMapper;
 import com.larramendiCrudProject.springboot.repository.UserRepository;
@@ -40,12 +41,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", userId)
+        );
         //UserDto userDto = UserMapper.mapToUserDto(optionalUser.get());
         //UserDto userDto = modelMapper.map(optionalUser.get(), UserDto.class);
-        UserDto userDto = AutoUserMapper.MAPPER.mapToUserDto(optionalUser.get());
-        return userDto;
+        return AutoUserMapper.MAPPER.mapToUserDto(user);
     }
 
     @Override
@@ -69,7 +70,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto) {
-        User existentUser = userRepository.findById(userDto.getId()).get();
+        User existentUser = userRepository.findById(userDto.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", userDto.getId())
+        );
         existentUser.setFirstName(userDto.getFirstName());
         existentUser.setLastName(userDto.getLastName());
         existentUser.setEmail(userDto.getEmail());
@@ -82,6 +85,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
+
+        User existentUser = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", userId)
+        );
+
         userRepository.deleteById(userId);
     }
 

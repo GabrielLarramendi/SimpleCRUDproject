@@ -1,7 +1,6 @@
 package com.larramendiCrudProject.springboot.controller;
 
 import com.larramendiCrudProject.springboot.dto.UserDto;
-import com.larramendiCrudProject.springboot.entity.User;
 import com.larramendiCrudProject.springboot.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
