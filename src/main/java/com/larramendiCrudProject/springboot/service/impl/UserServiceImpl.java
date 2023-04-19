@@ -2,6 +2,7 @@ package com.larramendiCrudProject.springboot.service.impl;
 
 import com.larramendiCrudProject.springboot.dto.UserDto;
 import com.larramendiCrudProject.springboot.entity.User;
+import com.larramendiCrudProject.springboot.exception.EmailAlreadyExistsException;
 import com.larramendiCrudProject.springboot.exception.ResourceNotFoundException;
 import com.larramendiCrudProject.springboot.mapper.AutoUserMapper;
 import com.larramendiCrudProject.springboot.mapper.UserMapper;
@@ -28,6 +29,11 @@ public class UserServiceImpl implements UserService {
 
         //User user = UserMapper.mapToUser(userDto);
         //User user = modelMapper.map(userDto, User.class);
+
+        Optional<User> optionalUser = userRepository.getByEmail(userDto.getEmail());
+        if(optionalUser.isPresent()) {
+            throw new EmailAlreadyExistsException("Email already exists for User!");
+        }
 
         User user = AutoUserMapper.MAPPER.mapToUser(userDto);
         User savedUser = userRepository.save(user);
