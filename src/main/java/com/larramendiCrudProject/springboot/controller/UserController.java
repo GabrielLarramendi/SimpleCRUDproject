@@ -4,6 +4,7 @@ import com.larramendiCrudProject.springboot.dto.UserDto;
 import com.larramendiCrudProject.springboot.exception.ErrorDetails;
 import com.larramendiCrudProject.springboot.exception.ResourceNotFoundException;
 import com.larramendiCrudProject.springboot.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.catalina.WebResource;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUserDto(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUserDto(@Valid @RequestBody UserDto userDto) {
         UserDto savedUser = userService.createUser(userDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long userId, @RequestBody UserDto userDto)    {
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long userId, @Valid  @RequestBody UserDto userDto)    {
         userDto.setId(userId);
         UserDto updatedUserDto = userService.updateUser(userDto);
         return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
